@@ -23,7 +23,6 @@ import javax.annotation.PostConstruct;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Service
 public class TradieBidService {
@@ -50,11 +49,6 @@ public class TradieBidService {
     @PostConstruct
     public void scheduleAllUncompletedJobs() {
         logger.info("schedule all uncompleted jobs");
-        final List<Job> jobs = jobRepository.findUncompletedJobs();
-
-        if (!jobs.isEmpty()) {
-            final List<Bid> bids = bidRepository.findAllByJobId(jobs.get(0).getJobId());
-        }
         jobRepository.findUncompletedJobs().forEach(this::scheduleProcessWinningBid);
     }
 
