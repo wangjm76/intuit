@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Bid.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tradie-bid</a> &gt; <a href="index.source.html" class="el_package">com.intuit.tradieBid.entity</a> &gt; <span class="el_source">Bid.java</span></div><h1>Bid.java</h1><pre class="source lang-java linenums">package com.intuit.tradieBid.entity;
+
+import org.springframework.util.ObjectUtils;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = &quot;bids&quot;)
+public class Bid {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer bidId;
+    private Integer jobId;
+    private Integer tradieId;
+    private Integer fixedPrice;
+    private Integer hourlyRate;
+
+<span class="fc" id="L18">    public Bid(Integer jobId, Integer tradieId, Integer fixedPrice, Integer hourlyRate) {</span>
+<span class="fc" id="L19">        this.jobId = jobId;</span>
+<span class="fc" id="L20">        this.tradieId = tradieId;</span>
+<span class="fc" id="L21">        this.fixedPrice = fixedPrice;</span>
+<span class="fc" id="L22">        this.hourlyRate = hourlyRate;</span>
+<span class="fc" id="L23">    }</span>
+
+<span class="fc" id="L25">    protected Bid() {</span>
+<span class="fc" id="L26">    }</span>
+
+<span class="fc" id="L28">    public Bid(Bid another) {</span>
+<span class="fc" id="L29">        this.jobId = another.jobId;</span>
+<span class="fc" id="L30">        this.tradieId = another.tradieId;</span>
+<span class="fc" id="L31">        this.fixedPrice = another.fixedPrice;</span>
+<span class="fc" id="L32">        this.hourlyRate = another.hourlyRate;</span>
+<span class="fc" id="L33">    }</span>
+
+    public Integer getBidId() {
+<span class="fc" id="L36">        return bidId;</span>
+    }
+
+    public void setBidId(Integer bidId) {
+<span class="fc" id="L40">        this.bidId = bidId;</span>
+<span class="fc" id="L41">    }</span>
+
+    public Integer getJobId() {
+<span class="fc" id="L44">        return jobId;</span>
+    }
+
+    public void setJobId(Integer jobId) {
+<span class="fc" id="L48">        this.jobId = jobId;</span>
+<span class="fc" id="L49">    }</span>
+
+    public Integer getTradieId() {
+<span class="fc" id="L52">        return tradieId;</span>
+    }
+
+    public void setTradieId(Integer tradieId) {
+<span class="fc" id="L56">        this.tradieId = tradieId;</span>
+<span class="fc" id="L57">    }</span>
+
+    public Integer getFixedPrice() {
+<span class="fc" id="L60">        return fixedPrice;</span>
+    }
+
+    public void setFixedPrice(Integer fixedPrice) {
+<span class="fc" id="L64">        this.fixedPrice = fixedPrice;</span>
+<span class="fc" id="L65">    }</span>
+
+    public Integer getHourlyRate() {
+<span class="fc" id="L68">        return hourlyRate;</span>
+    }
+
+    public void setHourlyRate(Integer hourly_rate) {
+<span class="fc" id="L72">        this.hourlyRate = hourly_rate;</span>
+<span class="fc" id="L73">    }</span>
+
+    public Integer getCost(Integer hour) {
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if (ObjectUtils.isEmpty(fixedPrice)) return hourlyRate * hour;</span>
+<span class="fc" id="L77">        else return fixedPrice;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

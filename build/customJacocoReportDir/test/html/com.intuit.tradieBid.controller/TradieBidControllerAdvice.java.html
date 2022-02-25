@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TradieBidControllerAdvice.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tradie-bid</a> &gt; <a href="index.source.html" class="el_package">com.intuit.tradieBid.controller</a> &gt; <span class="el_source">TradieBidControllerAdvice.java</span></div><h1>TradieBidControllerAdvice.java</h1><pre class="source lang-java linenums">package com.intuit.tradieBid.controller;
+
+import com.intuit.tradieBid.exception.InvalidBidException;
+import com.intuit.tradieBid.exception.NoMoreBidException;
+import com.intuit.tradieBid.exception.NoWinningBidException;
+import com.intuit.tradieBid.exception.NotFoundException;
+import org.apache.commons.lang3.StringUtils;
+import org.postgresql.util.PSQLException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+@ControllerAdvice
+<span class="fc" id="L19">public class TradieBidControllerAdvice extends ResponseEntityExceptionHandler {</span>
+
+    @ExceptionHandler(value = {PSQLException.class, DataIntegrityViolationException.class})
+    protected ResponseEntity&lt;Object&gt; handlePSQLException(
+            PSQLException ex, WebRequest request) {
+<span class="pc bpc" id="L24" title="1 of 2 branches missed.">        if (ex.getMessage().contains(&quot;violates not-null constraint&quot;))</span>
+<span class="fc" id="L25">            return handleExceptionInternal(ex, StringUtils.substringBefore(StringUtils.substringAfter(ex.getMessage(), &quot;column &quot;), &quot; &quot;) + &quot; is required.&quot;,</span>
+                    new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        else if (ex.getMessage().contains(&quot;could not execute statement; SQL [n/a]; constraint&quot;))</span>
+<span class="nc" id="L28">            return handleExceptionInternal(ex, StringUtils.substringBefore(StringUtils.substringAfter(ex.getMessage(), &quot;constraint [&quot;), &quot;\&quot;&quot;) + &quot; is required.&quot;,</span>
+                    new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+<span class="nc" id="L30">        else return new ResponseEntity&lt;&gt;(HttpStatus.INTERNAL_SERVER_ERROR);</span>
+    }
+
+    @ExceptionHandler(value = {RuntimeException.class})
+    protected ResponseEntity&lt;Object&gt; handleInternalException(RuntimeException ex, WebRequest request) {
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (ex instanceof NoWinningBidException)</span>
+<span class="fc" id="L36">            return handleExceptionInternal(ex, &quot;No Winning bid available&quot;, new HttpHeaders(), HttpStatus.UNPROCESSABLE_ENTITY, request);</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        else if (ex instanceof NotFoundException)</span>
+<span class="fc" id="L38">            return handleExceptionInternal(ex, &quot;Not Found&quot;, new HttpHeaders(), HttpStatus.NOT_FOUND, request);</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        else if (ex instanceof NoMoreBidException)</span>
+<span class="fc" id="L40">            return handleExceptionInternal(ex, &quot;Not More Bid Allowed&quot;, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        else if (ex instanceof InvalidBidException)</span>
+<span class="fc" id="L42">            return handleExceptionInternal(ex, &quot;Bid should have either fix price or hourly rate&quot;, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);</span>
+<span class="nc" id="L43">        else return new ResponseEntity&lt;&gt;(HttpStatus.INTERNAL_SERVER_ERROR);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

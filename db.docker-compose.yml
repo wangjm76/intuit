@@ -1,0 +1,17 @@
+version: '3.8'
+
+volumes:
+  postgres-data:
+
+services:
+  postgres:
+    image: postgres
+    volumes:
+      - ./src/main/resources/createdb.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_USER=intuit
+      - POSTGRES_PASSWORD=intuit
+      - APP_DB_NAME=tradiebid
+    ports:
+      - 5432:5432
+    restart: always

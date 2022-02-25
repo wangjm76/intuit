@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TradieBidController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tradie-bid</a> &gt; <a href="index.source.html" class="el_package">com.intuit.tradieBid.controller</a> &gt; <span class="el_source">TradieBidController.java</span></div><h1>TradieBidController.java</h1><pre class="source lang-java linenums">package com.intuit.tradieBid.controller;
+
+import com.intuit.tradieBid.entity.Bid;
+import com.intuit.tradieBid.entity.Customer;
+import com.intuit.tradieBid.entity.Job;
+import com.intuit.tradieBid.entity.Tradie;
+import com.intuit.tradieBid.model.WinningBid;
+import com.intuit.tradieBid.service.TradieBidService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping()
+public class TradieBidController {
+
+    private final TradieBidService tradieBidService;
+
+<span class="fc" id="L19">    TradieBidController(TradieBidService tradieBidService) {</span>
+<span class="fc" id="L20">        this.tradieBidService = tradieBidService;</span>
+<span class="fc" id="L21">    }</span>
+
+    @PostMapping(&quot;/customer&quot;)
+    public ResponseEntity&lt;Customer&gt; createCustomer(@RequestBody Customer customer) {
+<span class="fc" id="L25">        return new ResponseEntity&lt;&gt;(tradieBidService.createCustomer(customer), HttpStatus.CREATED);</span>
+    }
+
+    @GetMapping(&quot;/customer/{customerId}&quot;)
+    public ResponseEntity&lt;Customer&gt; findCustomer(@PathVariable Integer customerId) {
+<span class="fc" id="L30">        return new ResponseEntity&lt;&gt;(tradieBidService.findCustomer(customerId), HttpStatus.OK);</span>
+    }
+
+    @PostMapping(&quot;/tradie&quot;)
+    public ResponseEntity&lt;Tradie&gt; createTradie(@RequestBody Tradie tradie) {
+<span class="fc" id="L35">        return new ResponseEntity&lt;&gt;(tradieBidService.createTradie(tradie), HttpStatus.CREATED);</span>
+    }
+
+    @GetMapping(&quot;/tradie/{tradieId}&quot;)
+    public ResponseEntity&lt;Tradie&gt; findTradie(@PathVariable Integer tradieId) {
+<span class="fc" id="L40">        return new ResponseEntity&lt;&gt;(tradieBidService.findTradie(tradieId), HttpStatus.OK);</span>
+    }
+
+    @PostMapping(&quot;/job&quot;)
+    public ResponseEntity&lt;Job&gt; createJob(@RequestBody Job job) {
+<span class="fc" id="L45">        return new ResponseEntity&lt;&gt;(tradieBidService.createJob(job), HttpStatus.CREATED);</span>
+    }
+
+    @GetMapping(&quot;/job/{jobId}&quot;)
+    public ResponseEntity&lt;Job&gt; findJob(@PathVariable Integer jobId) {
+<span class="fc" id="L50">        return new ResponseEntity&lt;&gt;(tradieBidService.findJob(jobId), HttpStatus.OK);</span>
+    }
+
+    @GetMapping(&quot;/job/{jobId}/winning-bid&quot;)
+    public ResponseEntity&lt;WinningBid&gt; getWinningBid(@PathVariable Integer jobId) {
+<span class="fc" id="L55">        return new ResponseEntity&lt;&gt;(tradieBidService.getWinningBid(jobId), HttpStatus.OK);</span>
+    }
+
+    @PostMapping(&quot;/bid&quot;)
+    public ResponseEntity&lt;Bid&gt; createBid(@RequestBody Bid bid) {
+<span class="fc" id="L60">        return new ResponseEntity&lt;&gt;(tradieBidService.createBid(bid), HttpStatus.CREATED);</span>
+    }
+
+    @GetMapping(&quot;/bid/{bidId}&quot;)
+    public ResponseEntity&lt;Bid&gt; findBid(@PathVariable Integer bidId) {
+<span class="fc" id="L65">        return new ResponseEntity&lt;&gt;(tradieBidService.findBid(bidId), HttpStatus.OK);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
